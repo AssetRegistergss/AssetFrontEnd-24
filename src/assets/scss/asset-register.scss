@@ -1,0 +1,165 @@
+
+
+// Core
+
+@import "asset-register/custom/functions";
+@import "asset-register/custom/variables";
+@import "asset-register/custom/mixins";
+
+// bootstrap (4.6.0) components
+
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/code";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/dropdown";
+@import "~bootstrap/scss/button-group";
+@import "~bootstrap/scss/input-group";
+@import "~bootstrap/scss/custom-forms";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/breadcrumb";
+@import "~bootstrap/scss/pagination";
+@import "~bootstrap/scss/badge";
+@import "~bootstrap/scss/jumbotron";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/progress";
+@import "~bootstrap/scss/media";
+@import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/close";
+@import "~bootstrap/scss/modal";
+@import "~bootstrap/scss/tooltip";
+@import "~bootstrap/scss/popover";
+@import "~bootstrap/scss/carousel";
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/print";
+
+// Argon utilities and components
+
+@import "asset-register/custom/reboot";
+@import "asset-register/custom/utilities";
+@import "asset-register/custom/components";
+
+// Vendor (Plugins)
+
+@import "asset-register/custom/vendors";
+
+// Docs components
+
+@import "asset-register/docs/variables";
+@import "asset-register/docs/nav";
+@import "asset-register/docs/clipboard-js";
+@import "asset-register/docs/component-examples";
+@import "asset-register/docs/prism";
+@import "asset-register/docs/content";
+@import "asset-register/docs/sidebar";
+@import "asset-register/docs/footer";
+
+// React Differences
+@import "react/react-differences";
+
+/*
+* Custom
+*/
+
+.btn-round {
+  border-width: 1px;
+  border-radius: 30px;
+  padding-right: 23px;
+  padding-left: 23px;
+}
+
+.card {
+  border-radius: 1rem !important;
+  margin-bottom: 30px;
+
+  .card-header {
+    border-top-left-radius: 1rem !important;
+    border-top-right-radius: 1rem !important;
+  }
+
+  .card-footer {
+    border-bottom-left-radius: 1rem !important;
+    border-bottom-right-radius: 1rem !important;
+  }
+}
+
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+   background-color: transparent;
+   background-clip: padding-box;
+  border: none;
+  box-shadow: none;
+  outline: 0;
+}
+
+.page-header-image {
+  position: absolute;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.clear-filter:after, .clear-filter:before {
+  display: none; }
+
+.clear-filter[filter-color="blue"] {
+  background: rgba(44, 44, 44, 0.2);
+  /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(90deg, rgba(44, 44, 44, 0.2), rgba(3, 161, 224, 0.6));
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(90deg, rgba(44, 44, 44, 0.2), rgba(3, 161, 224, 0.6));
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(90deg, rgba(44, 44, 44, 0.2), rgba(3, 161, 224, 0.6));
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(0deg, rgba(44, 44, 44, 0.2), rgba(3, 161, 224, 0.6));
+  /* Standard syntax */ }
+
+.mask-background {
+  align-items: center;
+}
+
+.mask-background:after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  display: block;
+  content: "";
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.mask-background.mask-background-dark:before {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.mask-background.mask-background-dark:after {
+  background-image: linear-gradient(310deg, #141727 0%, #3A416F 100%);
+  opacity: .85;
+}
+
+.mask-background .full-background {
+  background-position: 50%;
+  background-size: cover;
+  margin-bottom: 30px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
