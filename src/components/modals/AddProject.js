@@ -12,13 +12,34 @@ import {
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
-
+import { AddData } from "Functions/Functions";
+import Alert from 'funuicss/component/Alert'
+import { FunGet } from 'funuicss/js/Fun';
 const AddProject = ({ isOpen, setIsOpen }) => {
   const onSubmit = (e) => {
     e.preventDefault();
+    const pName = FunGet.val("#name")
+    const coordinator = FunGet.val("#coordinator")
+    const contact = FunGet.val("#contact")
+
+    let doc = {
+      project_name:pName,
+      coordinator_name:coordinator,
+      coordinator_contact:contact
+    }
+
+    if(pName && coordinator && contact){
+      AddData('project-details' , doc)
+      .then(doc=>doc ? console.log(doc) : alert("success"))
+      .catch(err=>console.log(err))
+    }else{
+
+    }
+
   };
 
   return (
+    <div>
     <Modal className="modal-dialog" size="lg" isOpen={isOpen}>
       <div className="modal-body p-0">
         <Card className="bg-secondary shadow border-0">
@@ -40,7 +61,7 @@ const AddProject = ({ isOpen, setIsOpen }) => {
             </Row>
           </CardHeader>
           <CardBody className="p-3">
-            <Form role="form">
+            <Form role="form" onSubmit={(e)=>e.preventDefault()}>
               <Row className={"form-row align-items-center"}>
                 <Col md={4} sm={6}>
                   <FormGroup className="">
@@ -86,10 +107,9 @@ const AddProject = ({ isOpen, setIsOpen }) => {
                 <Button
                   className="mt-4 btn-round"
                   color="primary"
-                  type="submit"
-                  onSubmit={onSubmit}
+                  onClick={onSubmit}
                 >
-                  <FontAwesomeIcon icon={faCheck} className={"mr-1"} /> Submit
+                  <FontAwesomeIcon icon={faCheck} className={"mr-1"} /> Add project
                 </Button>
               </div>
             </Form>
@@ -97,6 +117,8 @@ const AddProject = ({ isOpen, setIsOpen }) => {
         </Card>
       </div>
     </Modal>
+    </div>
+
   );
 };
 

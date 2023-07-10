@@ -13,10 +13,12 @@ import {
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
-
+import {FunGet} from 'funuicss/js/Fun'
 const AddUser = ({ isOpen, setIsOpen }) => {
   const onSubmit = (e) => {
-    e.preventDefault();
+    e.preventdefault()
+    const email = FunGet.val("#email")
+    alert(email)
   };
 
   return (
@@ -41,7 +43,7 @@ const AddUser = ({ isOpen, setIsOpen }) => {
             </Row>
           </CardHeader>
           <CardBody className="p-3">
-            <Form role="form">
+            <Form  onChange={(e)=>e.preventDefault()}>
               <Row className={"form-row align-items-center"}>
                 <Col md={4} sm={6}>
                   <FormGroup className="">
@@ -116,7 +118,7 @@ const AddUser = ({ isOpen, setIsOpen }) => {
                     <Input
                       className={"form-control-alternative"}
                       type="select"
-                      required
+                      // required
                       id={"role"}
                     >
                       <option value="">Select an option</option>
@@ -131,7 +133,7 @@ const AddUser = ({ isOpen, setIsOpen }) => {
                     <Input
                       className={"form-control-alternative"}
                       type="select"
-                      required
+                      // required
                       id={"project"}
                     >
                       <option value="">Select an option</option>
@@ -143,7 +145,6 @@ const AddUser = ({ isOpen, setIsOpen }) => {
                 <Button
                   className="mt-4 btn-round"
                   color="primary"
-                  type="submit"
                   onSubmit={onSubmit}
                 >
                   <FontAwesomeIcon icon={faCheck} className={"mr-1"} /> Submit

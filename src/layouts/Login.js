@@ -92,7 +92,7 @@ const Login = () => {
                       </FormGroup>
                       <div className="text-center">
                         <Button
-                          className="mt-4"
+                          className="mt-4 btn-block"
                           color="primary"
                           type="button"
                           onClick={() => navigate("/admin/index")}

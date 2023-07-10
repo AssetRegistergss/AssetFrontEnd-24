@@ -1,0 +1,1 @@
+export const EndPoint = 'https://asset-register.onrender.com'
