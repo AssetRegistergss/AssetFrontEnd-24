@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Headers/Header";
 import {
   Button,
@@ -16,10 +16,18 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddDevice from "../components/modals/AddDevice";
-
+import { GetDevices } from "../Functions/Functions";
 const Devices = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [Devices, setDevices] = useState('')
+  useEffect(() => {
+    if(!Devices){
+      GetDevices()
+      .then(doc=>{
+        setDevices(doc)
+      }).catch(err=>console.log(err))
+    }
+  })
   return (
     <>
       <Header />
@@ -48,12 +56,23 @@ const Devices = () => {
                     <th scope="col">Serial Number</th>
                     <th scope="col">Model</th>
                     <th scope="col">Brand</th>
-                    <th scope="col">Added By</th>
+                    {/* <th scope="col">Added By</th>
                     <th scope="col">Added On</th>
-                    <th scope="col" />
+                    <th scope="col" /> */}
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                  {
+                    Devices ? 
+                    Devices.map(doc=>(
+                      <tr key={doc.id}>
+                        <td>{doc.serial}</td>
+                        <td>{doc.model}</td>
+                        <td>{doc.brand}</td>
+                      </tr>
+                    )) : ''
+                  }
+                </tbody>
               </Table>
               <CardFooter className="py-4">
                 <nav aria-label="...">

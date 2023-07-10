@@ -1,8 +1,39 @@
 // reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
+import { GetDistricts, GetProjects, GetRegions, GetUsers } from "../../Functions/Functions";
+import { GetDevices } from './../../Functions/Functions';
 const Header = () => {
+  const [devices, setdevices] = useState('')
+  useEffect(() => {
+    if(!devices){
+      GetDevices()
+      .then(doc=>{
+        setdevices(doc)
+      }).catch(err=>console.log(err))
+    }
+  })
+  const [projects, setprojects] = useState('')
+  useEffect(() => {
+    if(!projects && devices){
+      GetProjects()
+      .then(doc=>{
+        setprojects(doc)
+      }).catch(err=>console.log(err))
+    }
+  })
+  const [users, setusers] = useState('')
+  useEffect(() => {
+    if(!users){
+      GetUsers()
+      .then(doc=>{
+        setusers(doc)
+        console.log(doc)
+      }).catch(err=>console.log(err))
+    }
+  })
+
   return (
     <>
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
@@ -22,7 +53,7 @@ const Header = () => {
                           Devices
                         </CardTitle>
                         <span className="h2 font-weight-bold mb-0">
-                          350,897
+                          {devices ? devices.length : ''}
                         </span>
                       </div>
                       <Col className="col-auto">
@@ -51,7 +82,9 @@ const Header = () => {
                         >
                            Users
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">2,356</span>
+                        <span className="h2 font-weight-bold mb-0">
+                          {users ? users.length : ''}
+                          </span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -79,7 +112,9 @@ const Header = () => {
                         >
                           Projects
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">924</span>
+                        <span className="h2 font-weight-bold mb-0">
+                        {projects ? projects.length : ''}
+                        </span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-info text-white rounded-circle shadow">

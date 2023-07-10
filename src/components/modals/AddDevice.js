@@ -12,13 +12,141 @@ import {
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
+import { AddData } from "Functions/Functions";
+import { FunGet } from 'funuicss/js/Fun';
+import Loader from "components/Fun/Loader";
+import { useState , useEffect } from "react";
+import MyAlert from "../Fun/MyAlert";
+import { GetDistricts, GetProjects, GetRegions } from "../../Functions/Functions";
+import { GetPurposes } from './../../Functions/Functions';
 
 const AddDevice = ({ isOpen, setIsOpen }) => {
-  const onSubmit = (e) => {
-    e.preventDefault();
-  };
+  const [projects, setprojects] = useState('')
+  useEffect(() => {
+    if(!projects){
+      GetProjects()
+      .then(doc=>{
+        setprojects(doc)
+      }).catch(err=>console.log(err))
+    }
+  })
+  const [regions, setregions] = useState('')
+  useEffect(() => {
+    if(!regions){
+      GetRegions()
+      .then(doc=>{
+        setregions(doc)
+      }).catch(err=>console.log(err))
+    }
+  })
+  const [districts, setdistricts] = useState("")
+  useEffect(() => {
+    if(regions && !districts){
+      GetDistricts()
+      .then(doc=>{
+        setdistricts(doc)
+      }).catch(err=>console.log(err))
+    }
+  })
+  const [purposes, setpurposes] = useState("")
+  useEffect(() => {
+    if(regions && districts && !purposes){
+      GetPurposes()
+      .then(doc=>{
+        setpurposes(doc)
+      }).catch(err=>console.log(err))
+    }
+  })
 
+  const [loader, setloader] = useState(false)
+  const [alert, setalert] = useState("")
+
+  useEffect(() => {
+    setTimeout(() => {
+      setalert('')
+    }, 3000);
+    return () => {
+    clearTimeout()
+    }
+  }, [alert])
+  
+  const onSubmit = (e) => {
+    setalert("")
+    setIsOpen(false)
+    e.preventDefault();
+    const serial = FunGet.val("#serial")
+    const model = FunGet.val("#model")
+    const brand = FunGet.val("#brand")
+    const imei = FunGet.val("#imei")
+    const id = FunGet.val("#deviceID")
+    const functionality = FunGet.val("#functionality");
+    const touch = FunGet.val("#touch");
+    const inspection = FunGet.val("#inspection");
+    const status = FunGet.val("#status");
+    const project = FunGet.val("#project");
+    const region = FunGet.val("#region");
+    const purpose = FunGet.val("#purpose");
+    const accessories = FunGet.val("#accessories");
+    const comment = FunGet.val("#comment");
+    const district = FunGet.val("#district");
+    // const accessories = FunGet.val("#accessories");
+
+    let doc = {
+      serial_number:serial,
+      model:model,
+      brand:brand,
+      imei:imei,
+      device_id:id,
+      functionality:functionality,
+      touch_screen:touch,
+      accessories:accessories,
+      physical_inspection:inspection,
+      status:status,
+      comment:comment,
+      project_id:project,
+      purpose_id:purpose,
+      region_id:region,
+      district_id:district
+    }
+
+    if(
+      serial && model && brand &&
+      imei && id && functionality &&
+      touch && accessories && inspection && 
+      status && project && purpose && 
+      region && district 
+      ){ 
+      setloader(true)
+      AddData('machine-details' , doc)
+      .then(doc=>{
+        // doc ? console.log(doc) : alert("success")
+        setalert({
+          message:"Submitted successfully",
+          type:'success',
+        })
+        setloader(false)
+      })
+      .catch(err=>{
+        setalert({
+          message:err.message,
+          type:'info',
+        })
+        setloader(false)
+      })
+    }else{
+
+      setalert({
+        message:"Make sure to enter all details",
+        type:'info',
+      })
+    }
+
+  };
   return (
+    <div>
+         {loader && <Loader />}
+         {alert &&
+      <MyAlert message={alert.message} type={alert.type} />}
     <Modal className="modal-dialog" size="lg" isOpen={isOpen}>
       <div className="modal-body p-0">
         <Card className="bg-secondary shadow border-0">
@@ -40,9 +168,9 @@ const AddDevice = ({ isOpen, setIsOpen }) => {
             </Row>
           </CardHeader>
           <CardBody className="p-3">
-            <Form role="form">
+            <Form role="form" onSubmit={(e)=>e.preventDefault()}>
               <Row className={"form-row align-items-center"}>
-                <Col md={3} sm={6}>
+                <Col md={12} sm={12}>
                   <FormGroup className="">
                     <label className="form-control-label" htmlFor="serial">
                       Serial Number
@@ -122,20 +250,27 @@ const AddDevice = ({ isOpen, setIsOpen }) => {
                       id={"functionality"}
                     >
                       <option value="">Select an option</option>
+                      <option value="operating">Operating</option>
+                      <option value="not operating">Not Operating</option>
                     </Input>
                   </FormGroup>
                 </Col>
                 <Col md={3} sm={6}>
-                  <div className="custom-control custom-control-alternative custom-checkbox">
-                    <input
-                      className="custom-control-input"
-                      id="touch"
-                      type="checkbox"
-                    />
-                    <label className="custom-control-label" htmlFor="touch">
-                      Touch Screen
+                <FormGroup className="">
+                    <label className="form-control-label" htmlFor="inspection">
+                      Touch
                     </label>
-                  </div>
+                    <Input
+                      className={"form-control-alternative"}
+                      type="select"
+                      required
+                      id={"touch"}
+                    >
+                      <option value="">Select an option</option>
+                      <option value={true}>Yes</option>
+                      <option value={false}>No</option>
+                    </Input>
+                  </FormGroup>
                 </Col>
                 <Col md={3} sm={6}>
                   <FormGroup className="">
@@ -149,6 +284,9 @@ const AddDevice = ({ isOpen, setIsOpen }) => {
                       id={"inspection"}
                     >
                       <option value="">Select an option</option>
+                      <option value="well functioning">Well Functioning</option>
+                      <option value="Broken">Broken</option>
+                      <option value="Faulty">Faulty</option>
                     </Input>
                   </FormGroup>
                 </Col>
@@ -177,21 +315,54 @@ const AddDevice = ({ isOpen, setIsOpen }) => {
                       id={"project"}
                     >
                       <option value="">Select an option</option>
+                      {
+                        projects &&
+                        projects.map(doc=>(
+                          <option value={doc.id} key={doc.id}>{doc.project_name}</option>
+                        ))
+                      }
                     </Input>
                   </FormGroup>
                 </Col>
                 <Col md={3} sm={6}>
                   <FormGroup className="">
                     <label className="form-control-label" htmlFor="location">
-                      Location
+                      Region
                     </label>
                     <Input
                       className={"form-control-alternative"}
                       type="select"
                       required
-                      id={"location"}
+                      id={"region"}
                     >
                       <option value="">Select an option</option>
+                      {
+                        regions &&
+                        regions.map(doc=>(
+                          <option value={doc.id} key={doc.id}>{doc.region_name}</option>
+                        ))
+                      }
+                    </Input>
+                  </FormGroup>
+                </Col>
+                <Col md={3} sm={6}>
+                  <FormGroup className="">
+                    <label className="form-control-label" htmlFor="location">
+                      District
+                    </label>
+                    <Input
+                      className={"form-control-alternative"}
+                      type="select"
+                      required
+                      id={"district"}
+                    >
+                      <option value="">Select an option</option>
+                      {
+                        districts &&
+                        districts.map(doc=>(
+                          <option value={doc.id} key={doc.id}>{doc.district_name}</option>
+                        ))
+                      }
                     </Input>
                   </FormGroup>
                 </Col>
@@ -207,10 +378,31 @@ const AddDevice = ({ isOpen, setIsOpen }) => {
                       id={"purpose"}
                     >
                       <option value="">Select an option</option>
+                      {
+                        purposes &&
+                        purposes.map(doc=>(
+                          <option value={doc.id} key={doc.id}>{doc.purpose}</option>
+                        ))
+                      }
                     </Input>
                   </FormGroup>
                 </Col>
-                <Col md={12}>
+                <Col md={12} lg='6'>
+                  <FormGroup className="">
+                    <label className="form-control-label" htmlFor="accessories">
+                      Comment
+                    </label>
+                    <Input
+                      className="form-control-alternative"
+                      placeholder="Write any Other comment here"
+                      rows="3"
+                      required
+                      type="textarea"
+                      id={"comment"}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col md={12} lg="6">
                   <FormGroup className="">
                     <label className="form-control-label" htmlFor="accessories">
                       Accessories
@@ -231,7 +423,7 @@ const AddDevice = ({ isOpen, setIsOpen }) => {
                   className="mt-4 btn-round"
                   color="primary"
                   type="submit"
-                  onSubmit={onSubmit}
+                  onClick={onSubmit}
                 >
                   <FontAwesomeIcon icon={faCheck} className={"mr-1"} /> Submit
                 </Button>
@@ -241,6 +433,8 @@ const AddDevice = ({ isOpen, setIsOpen }) => {
         </Card>
       </div>
     </Modal>
+    </div>
+
   );
 };
 
