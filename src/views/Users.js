@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Headers/Header";
 import {
   Button,
@@ -16,9 +16,22 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddUser from "../components/modals/AddUser";
+import { GetUsers } from "Functions/Functions";
+import { GetProject } from "Functions/Functions";
 
 const Users = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [users, setusers] = useState("")
+  useEffect(() => {
+  if(!users){
+    GetUsers()
+    .then(doc=>{
+    setusers(doc)
+    })
+    .catch(err=>console.log(err))
+  }
+  })
+  
 
   return (
     <>
@@ -51,12 +64,24 @@ const Users = () => {
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
-                    <th scope="col">Added By</th>
-                    <th scope="col">Added On</th>
+                    <th scope="col">Project</th>
+                    {/* <th scope="col">Added On</th> */}
                     <th scope="col" />
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                  {
+                    users &&
+                    users.map(doc=>(
+                      <tr key={doc.project_id}>
+                        <td>{doc.full_name}</td>
+                        <td>{doc.email}</td>
+                        <td>{doc.role}</td>
+                        <td>{GetProject(doc.project_id) ? GetProject(doc.project_id).project_id : doc.project_id}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
               </Table>
               <CardFooter className="py-4">
                 <nav aria-label="...">

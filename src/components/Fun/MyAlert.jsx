@@ -7,7 +7,7 @@ export default function MyAlert({type , message}) {
       {
         type == "success" ? 
         <i className="far fa-thumbs-up text-success myAlertIcon"  />
-        : <i className="fas fa-info text-info myAlertIcon"  />
+        : <i className="bx bxs-error text-danger myAlertIcon"  />
       }
       <p className='myAlertMessage'>
         {message}

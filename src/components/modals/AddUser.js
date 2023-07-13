@@ -19,6 +19,7 @@ import Loader from "components/Fun/Loader";
 import { useState , useEffect } from "react";
 import MyAlert from "../Fun/MyAlert";
 import { GetProjects } from "../../Functions/Functions";
+import { Roles } from "Data/Data";
 
 const AddUser = ({ isOpen, setIsOpen }) => {
   const [projects, setprojects] = useState('')
@@ -62,16 +63,18 @@ const AddUser = ({ isOpen, setIsOpen }) => {
       is_superuser:false, 
       project_id:projectId
     }
+    console.log(doc)
 
     if(email && password && fullName && role && projectId){
       setloader(true)
       AddData('users' , doc)
       .then(doc=>{
-        // doc ? console.log(doc) : alert("success")
-        setalert({
-          message:"Submitted successfully",
-          type:'success',
-        })
+        if(doc){
+          setalert({
+            message:"Submitted successfully",
+            type:'success',
+          })
+        }
         setloader(false)
       })
       .catch(err=>{
@@ -120,7 +123,7 @@ const AddUser = ({ isOpen, setIsOpen }) => {
                 <Col md={4} sm={6}>
                   <FormGroup className="">
                     <label className="form-control-label" htmlFor="first">
-                      fullName Name
+                      full Name
                     </label>
                     <Input
                       className={"form-control-alternative"}
@@ -169,8 +172,12 @@ const AddUser = ({ isOpen, setIsOpen }) => {
                       id={"role"}
                     >
                       <option value="">Select an option</option>
-                      <option value="admin">Admin</option>
-                      <option value="role">Role 2</option>
+                     {
+                      Roles &&
+                      Roles.map(e=>(
+                        <option value={e}>{e}</option>
+                      ))
+                     }
                     </Input>
                   </FormGroup>
                 </Col>
@@ -189,7 +196,7 @@ const AddUser = ({ isOpen, setIsOpen }) => {
                       {
                         projects &&
                         projects.map(doc=>(
-                          <option value={doc.id} key={doc.id}>{doc.project_name}</option>
+                          <option value={doc.project_id} key={doc.id}>{doc.project_name}</option>
                         ))
                       }
                     </Input>

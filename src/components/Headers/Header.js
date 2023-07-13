@@ -2,10 +2,20 @@
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { GetDistricts, GetProjects, GetRegions, GetUsers } from "../../Functions/Functions";
+import { GetDistricts, GetProjects, GetRegions, GetUsers, isOnline } from "../../Functions/Functions";
 import { GetDevices } from './../../Functions/Functions';
 const Header = () => {
   const [devices, setdevices] = useState('')
+  const [user, setuser] = useState('')
+  useEffect(() => {
+   if(!user){
+    isOnline()
+    .then(doc=>setuser(doc))
+    // .catch(err=>{})
+    .catch(err=>window.location.assign("/"))
+   } 
+  })
+  
   useEffect(() => {
     if(!devices){
       GetDevices()

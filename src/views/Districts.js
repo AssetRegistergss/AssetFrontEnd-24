@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Headers/Header";
 import {
   Button,
@@ -16,10 +16,19 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddDistrict from "../components/modals/AddDistrict";
-
+import { GetDistricts, GetProjects, GetRegions } from "../Functions/Functions";
 const Districts = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [districts, setdistricts] = useState("")
+  useEffect(() => {
+    if(!districts){
+      GetDistricts()
+      .then(doc=>{
+        setdistricts(doc)
+        console.log(doc)
+      }).catch(err=>console.log(err))
+    }
+  })
   return (
     <>
       <Header />

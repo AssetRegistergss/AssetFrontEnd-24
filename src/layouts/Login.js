@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Route, useLocation, useNavigate } from "react-router-dom";
 import {
   Button,
@@ -16,11 +16,27 @@ import {
 } from "reactstrap";
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import homeDecor from "assets/img/theme/home-decor-2.jpg";
-
+import {FunGet} from 'funuicss/js/Fun'
+import { AddData } from "Functions/Functions";
+import MyAlert from './../components/Fun/MyAlert';
+import Loader from "components/Fun/Loader";
 const Login = () => {
+  const [loader, setloader] = useState('')
+  const [alert, setalert] = useState('')
   const mainContent = React.useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+
+  
+  useEffect(() => {
+    setTimeout(() => {
+      setalert('')
+    }, 3000);
+    return () => {
+    clearTimeout()
+    }
+  }, [alert])
 
   React.useEffect(() => {
     document.body.classList.add("bg-default");
@@ -46,8 +62,53 @@ const Login = () => {
     });
   };
 
+  const handleLogin = ()=>{
+    const email = FunGet.val("#email")
+    const password = FunGet.val("#password")
+    if(email && password){
+      setloader(true)
+      AddData('login' , {email:email , password:password})
+      .then(doc=>{
+        if(doc){
+          // navigate("/admin/index")
+          if(doc.error){
+            setalert({
+              message:doc.error,
+              type:'info',
+            })
+          }else{
+            setalert({
+              message:"Login Succesfully",
+              type:'success',
+            })
+            sessionStorage.setItem(
+              'user' , 
+              JSON.stringify(doc)
+            )
+          }
+      
+        }
+        setloader(false)
+      })
+      .catch(err=>{
+        setalert({
+          message:err.message,
+          type:'info',
+        })
+        setloader(false)
+      })
+    }else{
+  
+      setalert({
+        message:"Make sure to enter all details",
+        type:'info',
+      })
+    }
+  }
   return (
     <>
+            {loader && <Loader />}
+    {alert &&<MyAlert message={alert.message} type={alert.type} />}
       <div className="main-content h-100vh" ref={mainContent}>
         <div className="mask-background mask-background-dark tilt" data-tilt="">
           <div
@@ -95,7 +156,7 @@ const Login = () => {
                           className="mt-4 btn-block"
                           color="primary"
                           type="button"
-                          onClick={() => navigate("/admin/index")}
+                          onClick={handleLogin}
                         >
                           Sign in
                         </Button>
