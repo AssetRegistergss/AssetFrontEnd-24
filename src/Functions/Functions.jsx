@@ -72,6 +72,19 @@ export const GetDistricts = ()=>{
           .catch(err=>reject(err))
     })
 }
+export const GetDistrict = (id)=>{
+    FunRequest.get(EndPoint + '/api/' + 'districts/' + id).then((doc)=>{
+        if(doc){
+           return doc
+        }else{
+          return null
+        }
+    })
+      .catch(err=>{
+        console.log(err)
+      })
+}
+
 export const GetProjects = ()=>{
     return new Promise((resolve, reject) => {
         FunRequest.get(EndPoint + '/api/' + 'project-details').then((doc)=>{
@@ -85,8 +98,7 @@ export const GetProjects = ()=>{
     })
 }
 export const GetProject = (id)=>{
-        FunRequest.get(EndPoint + '/api/' + ' project-details/' + id).then((doc)=>{
-            console.log(doc)
+        FunRequest.get(EndPoint + '/api/' + 'project-details/' + id).then((doc)=>{
             if(doc){
                return doc
             }else{

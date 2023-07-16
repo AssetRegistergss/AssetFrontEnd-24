@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Headers/Header";
 import {
   Button,
@@ -15,12 +15,21 @@ import {
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import AddProject from "../components/modals/AddProject";
 import AddPurpose from "../components/modals/AddPurpose";
+import { GetPurposes } from "Functions/Functions";
 
 const Purposes = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [purposes, setpurposes] = useState("")
+  useEffect(() => {
+  if(!purposes){
+    GetPurposes()
+    .then(doc=>{
+    setpurposes(doc)
+    })
+    .catch(err=>console.log(err))
+  }
+  })
   return (
     <>
       <Header />
@@ -46,13 +55,26 @@ const Purposes = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
+                    <th scope="col">Purpose ID</th>
                     <th scope="col">Purpose</th>
-                    <th scope="col">Added By</th>
-                    <th scope="col">Added On</th>
+                    {/* <th scope="col">Added By</th>
+                    <th scope="col">Added On</th> */}
                     <th scope="col" />
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                {
+                     purposes &&
+                     purposes.map(doc=>(
+                      <tr key={doc.project_id}>
+                        <td>{doc.purpose_id}</td>
+                        <td>{doc.purpose}</td>
+                        {/* <td>{doc.email}</td>
+                        <td>{doc.role}</td> */}
+                      </tr>
+                    ))
+                  }
+                </tbody>
               </Table>
               <CardFooter className="py-4">
                 <nav aria-label="...">

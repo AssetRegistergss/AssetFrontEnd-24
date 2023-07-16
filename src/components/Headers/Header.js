@@ -11,8 +11,8 @@ const Header = () => {
    if(!user){
     isOnline()
     .then(doc=>setuser(doc))
-    // .catch(err=>{})
-    .catch(err=>window.location.assign("/"))
+    .catch(err=>{})
+    // .catch(err=>window.location.assign("/"))
    } 
   })
   

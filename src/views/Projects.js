@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Headers/Header";
 import {
   Button,
@@ -16,10 +16,20 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddProject from "../components/modals/AddProject";
+import { GetProjects } from "Functions/Functions";
 
 const Projects = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [projects, setprojects] = useState("")
+  useEffect(() => {
+  if(!projects){
+    GetProjects()
+    .then(doc=>{
+    setprojects(doc)
+    })
+    .catch(err=>console.log(err))
+  }
+  })
   return (
     <>
       <Header />
@@ -53,7 +63,18 @@ const Projects = () => {
                     <th scope="col" />
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                {
+                    projects &&
+                    projects.map(doc=>(
+                      <tr key={doc.project_id}>
+                        <td>{doc.full_name}</td>
+                        <td>{doc.email}</td>
+                        <td>{doc.role}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
               </Table>
               <CardFooter className="py-4">
                 <nav aria-label="...">

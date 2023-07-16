@@ -16,7 +16,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddDistrict from "../components/modals/AddDistrict";
-import { GetDistricts, GetProjects, GetRegions } from "../Functions/Functions";
+import { GetDistricts } from "../Functions/Functions";
 const Districts = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [districts, setdistricts] = useState("")
@@ -65,7 +65,19 @@ const Districts = () => {
                     <th scope="col" />
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                {
+                     districts &&
+                     districts.map(doc=>(
+                      <tr key={doc.project_id}>
+                        <td>{doc.district_name}</td>
+                        <td>{doc.region_id}</td>
+                        {/* <td>{doc.email}</td>
+                        <td>{doc.role}</td> */}
+                      </tr>
+                    ))
+                  }
+                </tbody>
               </Table>
               <CardFooter className="py-4">
                 <nav aria-label="...">
