@@ -12,6 +12,15 @@ return new Promise((resolve, reject) => {
 })
 }
 
+export const SignOut = ()=>{
+    if(sessionStorage.getItem('user')){
+        new Promise((resolve, reject) => {
+            sessionStorage.removeItem('user')
+            resolve()
+        })
+        .then(()=>window.location.assign('/'))
+    }
+}
 export const AddData = (routeName , data)=>{
     return new Promise((resolve, reject) => {
         FunRequest.post(EndPoint + '/api/' + routeName , data).then((doc)=>{
@@ -73,12 +82,8 @@ export const GetDistricts = ()=>{
     })
 }
 export const GetDistrict = (id)=>{
-    FunRequest.get(EndPoint + '/api/' + 'districts/' + id).then((doc)=>{
-        if(doc){
-           return doc
-        }else{
-          return null
-        }
+    FunRequest.get(EndPoint + '/api/' + 'districts/' + id).then( async(doc)=>{
+           return await doc.district_name
     })
       .catch(err=>{
         console.log(err)
@@ -100,7 +105,8 @@ export const GetProjects = ()=>{
 export const GetProject = (id)=>{
         FunRequest.get(EndPoint + '/api/' + 'project-details/' + id).then((doc)=>{
             if(doc){
-               return doc
+               return doc.project_name
+            // console.log(doc)
             }else{
               return null
             }
@@ -125,6 +131,18 @@ export const GetDevices = ()=>{
 export const GetUsers = ()=>{
     return new Promise((resolve, reject) => {
         FunRequest.get(EndPoint + '/api/' + 'users').then((doc)=>{
+            if(doc){
+               resolve(doc)
+            }else{
+                resolve(null)
+            }
+        })
+          .catch(err=>reject(err))
+    })
+}
+export const GetUser = (email)=>{
+    return new Promise((resolve, reject) => {
+        FunRequest.get(EndPoint + '/api/' + 'users' + "/" + email).then((doc)=>{
             if(doc){
                resolve(doc)
             }else{

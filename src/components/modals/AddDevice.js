@@ -112,7 +112,7 @@ const AddDevice = ({ isOpen, setIsOpen }) => {
     if(
       serial && model && brand &&
       imei && id && functionality &&
-      touch && accessories && inspection && 
+      touch  && inspection && 
       status && project && purpose && 
       region && district 
       ){ 
@@ -267,8 +267,8 @@ const AddDevice = ({ isOpen, setIsOpen }) => {
                       id={"touch"}
                     >
                       <option value="">Select an option</option>
-                      <option value={true}>Yes</option>
-                      <option value={false}>No</option>
+                      <option value={"true"}>Yes</option>
+                      <option value={"false"}>No</option>
                     </Input>
                   </FormGroup>
                 </Col>
@@ -318,7 +318,7 @@ const AddDevice = ({ isOpen, setIsOpen }) => {
                       {
                         projects &&
                         projects.map(doc=>(
-                          <option value={doc.id} key={doc.id}>{doc.project_name}</option>
+                          <option value={doc.project_id} key={doc.id}>{doc.project_name}</option>
                         ))
                       }
                     </Input>
@@ -381,7 +381,7 @@ const AddDevice = ({ isOpen, setIsOpen }) => {
                       {
                         purposes &&
                         purposes.map(doc=>(
-                          <option value={doc.id} key={doc.id}>{doc.purpose}</option>
+                          <option value={doc.purpose_id} key={doc.id}>{doc.purpose}</option>
                         ))
                       }
                     </Input>

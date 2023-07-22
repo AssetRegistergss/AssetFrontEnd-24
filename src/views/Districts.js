@@ -25,7 +25,6 @@ const Districts = () => {
       GetDistricts()
       .then(doc=>{
         setdistricts(doc)
-        console.log(doc)
       }).catch(err=>console.log(err))
     }
   })
@@ -57,11 +56,12 @@ const Districts = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
+                    <th scope="col">ID</th>
                     <th scope="col">District</th>
-                    <th scope="col">Region</th>
-                    <th scope="col">Devices</th>
+                    {/* <th scope="col">Region</th> */}
+                    {/* <th scope="col">Devices</th>
                     <th scope="col">Added By</th>
-                    <th scope="col">Added On</th>
+                    <th scope="col">Added On</th> */}
                     <th scope="col" />
                   </tr>
                 </thead>
@@ -69,9 +69,10 @@ const Districts = () => {
                 {
                      districts &&
                      districts.map(doc=>(
-                      <tr key={doc.project_id}>
+                      <tr key={doc.id}>
+                           <td>{doc.id}</td>
                         <td>{doc.district_name}</td>
-                        <td>{doc.region_id}</td>
+                     
                         {/* <td>{doc.email}</td>
                         <td>{doc.role}</td> */}
                       </tr>

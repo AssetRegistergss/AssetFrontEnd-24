@@ -11,8 +11,7 @@ const Header = () => {
    if(!user){
     isOnline()
     .then(doc=>setuser(doc))
-    .catch(err=>{})
-    // .catch(err=>window.location.assign("/"))
+    .catch(err=>window.location.assign("/"))
    } 
   })
   
@@ -39,14 +38,13 @@ const Header = () => {
       GetUsers()
       .then(doc=>{
         setusers(doc)
-        console.log(doc)
       }).catch(err=>console.log(err))
     }
   })
 
   return (
     <>
-      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
+      <div className="header  pb-8 pt-5 pt-md-8">
         <Container fluid>
           <div className="header-body">
             {/* Card stats */}
@@ -62,7 +60,7 @@ const Header = () => {
                         >
                           Devices
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
+                        <span className="h1  font-weight-bold mb-0"  style={{color:'#909090'}}>
                           {devices ? devices.length : ''}
                         </span>
                       </div>
@@ -72,12 +70,12 @@ const Header = () => {
                         </div>
                       </Col>
                     </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
+                    {/* <p className="mt-3 mb-0 text-muted text-sm">
                       <span className="text-success mr-2">
                         <i className="fa fa-arrow-up" /> 3.48%
                       </span>{" "}
                       <span className="text-nowrap">Since last month</span>
-                    </p>
+                    </p> */}
                   </CardBody>
                 </Card>
               </Col>
@@ -92,7 +90,7 @@ const Header = () => {
                         >
                            Users
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
+                        <span className="h1  font-weight-bold mb-0"  style={{color:'#909090'}}>
                           {users ? users.length : ''}
                           </span>
                       </div>
@@ -102,12 +100,12 @@ const Header = () => {
                         </div>
                       </Col>
                     </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
+                    {/* <p className="mt-3 mb-0 text-muted text-sm">
                       <span className="text-danger mr-2">
                         <i className="fas fa-arrow-down" /> 3.48%
                       </span>{" "}
                       <span className="text-nowrap">Since last week</span>
-                    </p>
+                    </p> */}
                   </CardBody>
                 </Card>
               </Col>
@@ -122,7 +120,7 @@ const Header = () => {
                         >
                           Projects
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
+                        <span className="h1  font-weight-bold mb-0"  style={{color:'#909090'}}>
                         {projects ? projects.length : ''}
                         </span>
                       </div>
@@ -132,12 +130,12 @@ const Header = () => {
                         </div>
                       </Col>
                     </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
+                    {/* <p className="mt-3 mb-0 text-muted text-sm">
                       <span className="text-warning mr-2">
                         <i className="fas fa-arrow-down" /> 1.10%
                       </span>{" "}
                       <span className="text-nowrap">Since yesterday</span>
-                    </p>
+                    </p> */}
                   </CardBody>
                 </Card>
               </Col>
@@ -152,7 +150,7 @@ const Header = () => {
                         >
                           Performance
                         </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">49,65%</span>
+                        <span className="h1  font-weight-bold mb-0"  style={{color:'#909090'}}>49,65%</span>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-info text-white rounded-circle shadow">

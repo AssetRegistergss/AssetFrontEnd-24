@@ -26,6 +26,7 @@ import {
   Row,
   UncontrolledDropdown,
 } from "reactstrap";
+import { SignOut } from "../Functions/Functions";
 
 var ps;
 
@@ -137,7 +138,10 @@ const Sidebar = ({ routes, logo }) => {
           <Nav navbar>{createLinks(routes)}</Nav>
           <Nav className="mb-md-3" navbar>
             <NavItem className="active-pro active">
-              <NavLink href="#">
+              <NavLink href="#" onClick={(e)=>{
+                e.preventDefault()
+                SignOut()
+              }}>
                 <i className="ni ni-user-run" />
                 Logout
               </NavLink>

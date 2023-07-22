@@ -55,12 +55,12 @@ const Projects = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
+                    <th scope="col">ID</th>
                     <th scope="col">Project</th>
                     <th scope="col">Coordinator</th>
-                    <th scope="col">Devices</th>
-                    <th scope="col">Added By</th>
-                    <th scope="col">Added On</th>
-                    <th scope="col" />
+                    <th scope="col">Coordinator Contact</th>
+                    {/* <th scope="col">Added By</th>
+                    <th scope="col">Added On</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -68,9 +68,10 @@ const Projects = () => {
                     projects &&
                     projects.map(doc=>(
                       <tr key={doc.project_id}>
-                        <td>{doc.full_name}</td>
-                        <td>{doc.email}</td>
-                        <td>{doc.role}</td>
+                        <td>{doc.project_id}</td>
+                        <td>{doc.project_name}</td>
+                        <td>{doc.coordinator_name}</td>
+                        <td>{doc.coordinator_contact}</td>
                       </tr>
                     ))
                   }

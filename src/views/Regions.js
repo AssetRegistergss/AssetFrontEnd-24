@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Headers/Header";
 import {
   Button,
@@ -16,10 +16,18 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddRegion from "../components/modals/AddRegion";
-
+import { GetRegions } from "../Functions/Functions";
 const Regions = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [regions, setregions] = useState("")
+  useEffect(() => {
+    if(!regions){
+      GetRegions()
+      .then(doc=>{
+        setregions(doc)
+      }).catch(err=>console.log(err))
+    }
+  })
   return (
     <>
       <Header />
@@ -48,14 +56,26 @@ const Regions = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
+                    <th scope="col">ID</th>
                     <th scope="col">Region</th>
-                    <th scope="col">Devices</th>
+                    {/* <th scope="col">Devices</th>
                     <th scope="col">Added By</th>
-                    <th scope="col">Added On</th>
-                    <th scope="col" />
+                    <th scope="col">Added On</th> */}
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                {
+                     regions &&
+                     regions.map(doc=>(
+                      <tr key={doc.project_id}>
+                        <td>{doc.id}</td>
+                        <td>{doc.region_name}</td>
+                        {/* <td>{doc.email}</td>
+                        <td>{doc.role}</td> */}
+                      </tr>
+                    ))
+                  }
+                </tbody>
               </Table>
               <CardFooter className="py-4">
                 <nav aria-label="...">

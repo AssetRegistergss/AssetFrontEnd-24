@@ -16,10 +16,23 @@ import {
   Container,
   Media,
 } from "reactstrap";
+import { SignOut, isOnline } from "../../Functions/Functions";
+import { useEffect, useState } from "react";
 
 const AdminNavbar = (props) => {
+  const [user, setuser] = useState('')
+  useEffect(() => {
+   if(!user){
+    isOnline()
+    .then(doc=>setuser(doc))
+    .catch(err=>window.location.assign("/"))
+   } 
+  })
   return (
-    <>
+  <div>
+    {
+      user ? 
+      <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
         <Container fluid>
           <Link
@@ -32,12 +45,14 @@ const AdminNavbar = (props) => {
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
-                  <span className="avatar avatar-sm rounded-circle white">
-                    <i className="fas fa-user" />
-                  </span>
+                  <span className="avatar avatar-sm rounded-circle">
+                    {user.full_name.slice(0 , 1)} 
+                    {' '} 
+                    {user.full_name.slice(user.full_name.indexOf(" ") , user.full_name.indexOf(" ") + 2)}
+                  </span> 
                   <Media className="ml-2 d-none d-lg-block">
-                    <span className="mb-0 text-sm font-weight-bold">
-                      Ahmed Salim
+                    <span className="mb-0 text-sm " style={{color:'#909090'}}>
+                     {user.full_name}
                     </span>
                   </Media>
                 </Media>
@@ -47,7 +62,10 @@ const AdminNavbar = (props) => {
                   <i className="ni ni-single-02" />
                   <span>My profile</span>
                 </DropdownItem>
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <DropdownItem href="#pablo" onClick={(e) =>{
+                  e.preventDefault();
+                  SignOut()
+                }}>
                   <i className="ni ni-user-run" />
                   <span>Logout</span>
                 </DropdownItem>
@@ -57,6 +75,9 @@ const AdminNavbar = (props) => {
         </Container>
       </Navbar>
     </>
+    :''
+    }
+  </div>
   );
 };
 

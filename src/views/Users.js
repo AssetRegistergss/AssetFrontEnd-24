@@ -64,7 +64,7 @@ const Users = () => {
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
-                    <th scope="col">Project</th>
+                    {/* <th scope="col">Project</th> */}
                     {/* <th scope="col">Added On</th> */}
                     <th scope="col" />
                   </tr>
@@ -77,7 +77,7 @@ const Users = () => {
                         <td>{doc.full_name}</td>
                         <td>{doc.email}</td>
                         <td>{doc.role}</td>
-                        <td>{GetProject(doc.project_id) ? GetProject(doc.project_id).project_id : doc.project_id}</td>
+                        {/* <td>{GetProject(doc.project_id)}</td> */}
                       </tr>
                     ))
                   }

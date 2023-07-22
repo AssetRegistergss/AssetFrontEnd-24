@@ -16,10 +16,15 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddDevice from "../components/modals/AddDevice";
-import { GetDevices } from "../Functions/Functions";
+import { GetDevices, GetDistrict, GetDistricts } from "../Functions/Functions";
+import Loader from './../components/Fun/Loader';
 const Devices = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [Devices, setDevices] = useState('')
+  const [districts, setdistricts] = useState('')
+  const districtNames = [];
+
+
   useEffect(() => {
     if(!Devices){
       GetDevices()
@@ -28,6 +33,33 @@ const Devices = () => {
       }).catch(err=>console.log(err))
     }
   })
+  useEffect(() => {
+    if(!districts){
+      GetDistricts()
+      .then(doc=>{
+        setdistricts(doc)
+      })
+    }
+  })
+
+  useEffect(()=>{
+    if(districtNames.length < 1 && districts){
+              
+// Push all district_names into the districtNames array
+districts.forEach(district => {
+  districtNames.push(district.district_name);
+});
+
+// Sort the array in ascending order based on the id
+districtNames.sort((a, b) => {
+  const districtA = districts.find(district => district.district_name === a);
+  const districtB = districts.find(district => district.district_name === b);
+  return districtA.id - districtB.id;
+});
+    }
+  })
+  
+  if(Devices){
   return (
     <>
       <Header />
@@ -53,9 +85,12 @@ const Devices = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
+                  <th scope="col">Deive ID</th>
                     <th scope="col">Serial Number</th>
                     <th scope="col">Model</th>
                     <th scope="col">Brand</th>
+                    <th scope="col">IMEI</th>
+                    <th scope="col">Functionality</th>
                     {/* <th scope="col">Added By</th>
                     <th scope="col">Added On</th>
                     <th scope="col" /> */}
@@ -66,9 +101,12 @@ const Devices = () => {
                     Devices ? 
                     Devices.map(doc=>(
                       <tr key={doc.id}>
-                        <td>{doc.serial}</td>
+                        <td>{doc.device_id}</td>
+                        <td>{doc.serial_number}</td>
                         <td>{doc.model}</td>
                         <td>{doc.brand}</td>
+                        <td>{doc.imei}</td>
+                        <td>{doc.functionality}</td>
                       </tr>
                     )) : ''
                   }
@@ -133,6 +171,10 @@ const Devices = () => {
       </Container>
     </>
   );
+}else{
+  return <Loader />
+}
 };
+
 
 export default Devices;

@@ -20,6 +20,7 @@ import {FunGet} from 'funuicss/js/Fun'
 import { AddData } from "Functions/Functions";
 import MyAlert from './../components/Fun/MyAlert';
 import Loader from "components/Fun/Loader";
+import { GetUser } from "../Functions/Functions";
 const Login = () => {
   const [loader, setloader] = useState('')
   const [alert, setalert] = useState('')
@@ -78,13 +79,23 @@ const Login = () => {
             })
           }else{
             setalert({
-              message:"Login Succesfully",
+              message:"Login Succesfully: wait for redirect",
               type:'success',
             })
-            sessionStorage.setItem(
-              'user' , 
-              JSON.stringify(doc)
-            )
+            GetUser(doc.user)
+            .then(getDoc=>{
+            if(getDoc.email){
+              new Promise((resolve, reject) => {
+                sessionStorage.setItem(
+                  'user' , 
+                  JSON.stringify(getDoc)
+                )
+                resolve()
+               })
+               .then(()=>window.location.assign('/admin/index'))
+            }
+            })
+         
           }
       
         }
